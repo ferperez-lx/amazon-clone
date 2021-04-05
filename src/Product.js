@@ -1,32 +1,54 @@
 import { PictureAsPdf } from '@material-ui/icons'
 import React from 'react'
 import styled from 'styled-components'
+import { db } from './firebase'
 
-function Product() {
+function Product({title, price, rating, image, id}) {
+
+    const addToCart = () => {
+        const cartItem = db.collection("cartItems").doc(id);
+        cartItem.get()
+        .then((doc)=>{
+            if(doc.exists){
+                cartItem.update({
+                    quantity: doc.data().quantity + 1
+                })
+            } else {
+                db.collection("cartItems").doc(id).set({
+                    name: title,
+                    image: image,
+                    price: price,
+                    quantity: 1
+                })
+            }
+        })
+    }
+
     return (
-        <Container>
-            
+        <Container>   
             <Title>
-                    Intel Core i9-9900K Desktop Processor 8 Cores up to 5.0 GHz Turbo Unlocked LGA1151 300 Series 95W 
+                {title }
             </Title>
 
             <Price>
-                    $419
+                ${price}
             </Price>
         
             <Rating>
-                    ⭐⭐⭐⭐⭐
+                {
+                    Array(rating)
+                    .fill()
+                    .map(rating=> <p>⭐</p>)
+                }
             </Rating>
 
-            <Image src="https://i.imgur.com/AbqyKKC.jpg">
-            </Image>
-
+            <Image src={image}/>
+            
             <ActionSection>
-                <AddToCartButton>
+                <AddToCartButton onClick={addToCart}>
                     Add to cart
                 </AddToCartButton>
             </ActionSection>
-            
         </Container>
     )
 }
@@ -56,7 +78,7 @@ const Price = styled.span`
 `
 
 const Rating = styled.div`
-
+    display: flex;
 `
 
 const Image = styled.img`
@@ -77,5 +99,6 @@ const AddToCartButton = styled.button`
     background-color: #f0c14b;
     border: 2px solid #a88734;
     border-radius: 2px;
+    cursor: pointer;
 `
 

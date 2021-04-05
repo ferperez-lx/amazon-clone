@@ -1,9 +1,36 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Product from './Product'
+import { db } from './firebase'
 
 function Home() {
+    const [products, setProducts] = useState([])
+
+    const getProducts = () => {
+        db.collection('products').onSnapshot((snapshot)=>{
+
+                let tempProducts = []
+                tempProducts = snapshot.docs.map((doc) => (
+                    {
+
+                    id: doc.id,
+                    product: doc.data()
+                    }
+                
+                ));
+
+                setProducts(tempProducts);
+
+            })
+    }
+
+    useEffect(()=>{
+        getProducts();
+    }, [])
+
+
     return (
+
         <Container>
             <Banner>
 
@@ -11,13 +38,41 @@ function Home() {
 
             <Content>
 
-                    <Product />
-                    <Product />
-                    
-            </Content>
-            <Content2>
+                    <HomeRow>
 
-            </Content2>
+                    {
+                        products.slice(0,2).map((data)=>(
+                                <Product 
+                                    title={data.product.name}
+                                    price={data.product.price}
+                                    rating={data.product.rating}
+                                    image={data.product.image}
+                                    id={data.id}
+                                />
+                    ))
+
+                    }
+
+                    </HomeRow>
+                    
+                    <HomeRow>
+
+                    {
+                        products.slice(2,5).map((data)=>(
+                                <Product 
+                                    title={data.product.name}
+                                    price={data.product.price}
+                                    rating={data.product.rating}
+                                    image={data.product.image}
+                                    id={data.id}
+                                />
+                    ))
+
+                    }
+
+                    </HomeRow>
+            </Content>
+            
         </Container>
     )
 }
@@ -44,12 +99,8 @@ const Content = styled.div `
     padding-left: 10px;
     padding-right: 10px;
     margin-top: -350px;
-    display: flex;
 `
 
-const Content2 = styled.div `
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-top: -700px;
+const HomeRow = styled.div`
     display: flex;
 `
