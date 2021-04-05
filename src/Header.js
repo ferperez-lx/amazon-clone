@@ -11,8 +11,10 @@ function Header() {
            
            <HeaderLogo>
 
-                <img src= {"https://mikekitko.com/wp-content/uploads/2019/10/amazon-logo-white-768x232.png"}></img>
-           
+                <Link to= "/">
+                     <img src= {"https://i.imgur.com/Uq5HK0J.png"}></img>
+                </Link>
+
            </HeaderLogo>
 
            <HeaderOptionAddress>
