@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import Product from './Product'
-import Product2 from './Product2'
 
 function Home() {
     return (
@@ -13,8 +12,8 @@ function Home() {
             <Content>
 
                     <Product />
-                    <Product2 />
-
+                    <Product />
+                    
             </Content>
             <Content2>
 
