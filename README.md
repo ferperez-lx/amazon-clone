@@ -17,6 +17,10 @@ Install MaterialUI.
 
 Routes to your ReactJS Proyect.
 
+### `npm install react-number-format`
+
+Format text (ex: 50000 -> 50,000)
+
 ### `npm i firebase`
 
 Install Backend for the app.
